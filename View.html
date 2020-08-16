@@ -1,0 +1,26 @@
+﻿[JavaScript:{ jsname: "JQuery" }]
+[JavaScript:{ path: "~/Resources/Shared/scripts/dnn.jquery.js"}]
+[JavaScript:{ path: "~/DesktopModules/starter-module-spa/Scripts/View.js"}]
+
+[ModuleAction:{
+    controlKey : "Edit",
+    securityAccessLevel : "Edit",
+    titleKey: "EditModule",
+    localResourceFile: "~/DesktopModules/starter-module-spa/App_LocalResources/View.resx"
+}]
+
+<div id="myModule-[ModuleContext:ModuleId]">
+    <h2 class="message"></h2>
+    <input class="name" type="text" placeholder="Enter your name..." />
+    <button>Say Goodbye To Me!</button>
+</div>
+
+<script language="javascript" type="text/javascript">
+    document.addEventListener('DOMContentLoaded', () => {
+        var moduleId = parseInt("[ModuleContext:ModuleId]");
+        var localizedSettings = {};
+        var viewModel = new dnnSpa.viewModel(moduleId, localizedSettings);
+        viewModel.init();
+        document.querySelector('#myModule-[ModuleContext:ModuleId] button').addEventListener('click', (e) => viewModel.sayGoodbye(e));
+    })
+</script>

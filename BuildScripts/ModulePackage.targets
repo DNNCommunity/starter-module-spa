@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="windows-1252"?>
+
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\MSBuildTasks.1.5.0.235\tools\MSBuild.Community.Tasks.Targets" />
+
+  <Target Name="SetVariables">
+
+    <!-- Reusable variables -->
+    <PropertyGroup>
+      <ProjectName>starter-module-spa</ProjectName>
+      <WebsiteFolder>..\Instances\dnn961\Website</WebsiteFolder>
+      <DeployFolder>$(WebsiteFolder)\DesktopModules\starter-module-spa</DeployFolder>
+      <PackageFolder>Package</PackageFolder>
+      <PackageResourcesFolder>$(PackageFolder)\Resources</PackageResourcesFolder>
+      <PackageInstallFolder>$(PackageFolder)\Install</PackageInstallFolder>
+      <PackageSymbolsFolder>$(PackageFolder)\Symbols</PackageSymbolsFolder>
+      <WebsiteInstallFolder>$(WebsiteFolder)\Install\Module</WebsiteInstallFolder>
+    </PropertyGroup>
+
+  </Target>
+
+  <Target Name="SetDefaultExclude">
+
+    <ItemGroup>
+      <DefaultExclude Include="**\.svn\**" />
+      <DefaultExclude Include="**\bin\**" />
+      <DefaultExclude Include="**\obj\**" />
+      <DefaultExclude Include="**\Release\**" />
+      <DefaultExclude Include="**\Debug\**" />
+      <DefaultExclude Include="**\Test\**" />
+      <DefaultExclude Include="**\TestResults\**" />
+      <DefaultExclude Include="**\doc\**" />
+      <DefaultExclude Include="**\Website\**" />
+      <DefaultExclude Include="**\*.user" />
+      <DefaultExclude Include="**\*.suo" />
+      <DefaultExclude Include="**\*.zip" />
+      <DefaultExclude Include="**\*.txt" />
+      <DefaultExclude Include="**\*ReSharper.*\**" />
+    </ItemGroup>
+
+  </Target>
+
+  <Target Name="DeployModule" Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' " DependsOnTargets="SetVariables;SetDefaultExclude" >
+    
+    <!-- Get the module version -->
+    <XmlRead Prefix="n"
+                    Namespace="http://schemas.microsoft.com/developer/msbuild/2003"
+                    XPath="dotnetnuke/packages/package[1]/@version"
+                    XmlFileName="$(ProjectName).dnn">
+      <Output TaskParameter="Value" PropertyName="Version" />
+    </XmlRead>
+    <Message Text="Starting to deploy module $(ProjectName) version $(Version)" Importance="High" />
+
+    <!-- Delete deployed folders in case there are leftover files from a previous failed build -->
+    <CallTarget Targets="DeleteDeployFoldersBefore" RunEachTargetSeparately="true" UseResultsCache="false" />
+
+    <!-- Get resource files -->
+    <ItemGroup>
+      <Module-Resources Include="**/*.resx" />
+      <Module-Controls Include="*.html" />
+      <Module-Styles Include="*.css" />
+      <Module-Scripts Include="**/*.js" />
+      <Resources Include="@(Module-Resources);@(Module-Controls);@(Module-Styles);@(Module-Scripts)" />
+    </ItemGroup>
+
+    <!-- Copy the resource files -->
+    <Message Text="Copying Resources" Importance="High" />
+    <Copy SourceFiles="@(Resources)" DestinationFolder="$(DeployFolder)\%(RecursiveDir)" />
+
+    <!-- Get the symbols -->
+    <ItemGroup>
+      <SymbolsFiles Include="bin\$(ProjectName).pdb" />
+    </ItemGroup>
+
+    <!-- Copy the symbols-->
+    <Message Text="Copying Symbols" importance="high" />
+    <Copy SourceFiles="@(SymbolsFiles)" DestinationFolder="$(MSBuildProjectDirectory)\$(WebsiteFolder)\bin\%(RecursiveDir)" />
+
+    <!-- Get the binaries -->
+    <ItemGroup>
+      <BinFiles Include="bin\$(ProjectName).dll" />
+    </ItemGroup>
+
+    <!-- Copy the binaries -->
+    <Message Text="Copying Binaries" Importance="high" />
+    <Copy SourceFiles="@(BinFiles)" DestinationFolder="$(MsBuildProjectDirectory)\$(WebsiteFolder)\bin\%(RecursiveDir)" />
+
+    <!-- Copy the install files -->
+    <Message Text="Copying Install files" Importance="high" />
+    <ItemGroup>
+      <InstallFiles Include="**\*.dnn" Exclude="packages\**;**\obj\**;**\_ReSharper*\**;" />
+      <InstallFiles Include="**\*.txt" Exclude="packages\**;**\obj\**;**\_ReSharper*\**;" />
+      <InstallFiles Include="**\*.SqlDataProvider" Exclude="packages\**;**\obj\**;**\_ReSharper*\**;" />
+    </ItemGroup>
+    <Copy SourceFiles="@(InstallFiles)" DestinationFolder="$(DeployFolder)\%(RecursiveDir)" />
+
+    <!-- Complete -->
+    <Message Text="Deploy complete, module is at: $(MSBuildProjectDirectory)\$(DeployFolder)" Importance="high" />
+    
+  </Target>
+
+  <Target Name="DeleteDeployFoldersBefore">
+    <RemoveDir Directories="$(MSBuildProjectDirectory)\$(DeployFolder)" />
+  </Target>
+
+  <Target Name="PackageModule" Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' " DependsOnTargets="SetVariables;SetDefaultExclude" >
+
+    <!-- Get the module version -->
+    <XmlRead Prefix="n"
+                    Namespace="http://schemas.microsoft.com/developer/msbuild/2003"
+                    XPath="dotnetnuke/packages/package[1]/@version"
+                    XmlFileName="$(ProjectName).dnn">
+      <Output TaskParameter="Value" PropertyName="Version" />
+    </XmlRead>
+    <Message Text="Starting to package module $(ProjectName) version $(Version)" Importance="High" />
+
+    <!-- Delete the temporary folders (in case they are leftover from previous failed build -->
+    <CallTarget Targets="DeletePackageFoldersBefore" RunEachTargetSeparately="true" UseResultsCache="false" />
+
+    <!-- Get the resource files -->
+    <ItemGroup>
+      <ResourceFiles Include="*.html" Exclude="packages\**;**\obj\**;**\_ReSharper*\**;Website\**;" />
+      <ResourceFiles Include="**\*.js" Exclude="packages\**;**\obj\**;**\_ReSharper*\**;Website\**;" />
+      <ResourceFiles Include="**\*.css" Exclude="packages\**;**\obj\**;**\_ReSharper*\**;Website\**;" />
+      <ResourceFiles Include="**\*.gif" Exclude="packages\**;**\obj\**;**\_ReSharper*\**;Website\**;" />
+      <ResourceFiles Include="**\*.jpg" Exclude="packages\**;**\obj\**;**\_ReSharper*\**;Website\**;" />
+      <ResourceFiles Include="**\*.jpeg" Exclude="packages\**;**\obj\**;**\_ReSharper*\**;Website\**;" />
+      <ResourceFiles Include="**\*.png" Exclude="packages\**;**\obj\**;**\_ReSharper*\**;Website\**;" />
+      <ResourceFiles Include="**\*.svg" Exclude="packages\**;**\obj\**;**\_ReSharper*\**;Website\**;" />
+      <ResourceFiles Include="**\*.resx" Exclude="packages\**;**\obj\**;**\_ReSharper*\**;Website\**;" />
+      <ResourceFiles Include="**\*.resources" Exclude="packages\**;**\obj\**;**\_ReSharper*\**;Website\**;" />
+    </ItemGroup>
+
+    <!-- Copy the resource files -->
+    <Message Text="Copying Resources" Importance="High" />
+    <Copy SourceFiles="@(ResourceFiles)" DestinationFolder="$(MSBuildProjectDirectory)\$(PackageResourcesFolder)\%(RecursiveDir)" />
+
+    <!-- Get the symbols -->
+    <ItemGroup>
+      <SymbolsFiles Include="bin\$(ProjectName).pdb" />
+    </ItemGroup>
+
+    <!-- Copy the symbols-->
+    <Message Text="Copying Symbols" importance="high" />
+    <Copy SourceFiles="@(SymbolsFiles)" DestinationFolder="$(MSBuildProjectDirectory)\$(PackageSymbolsFolder)\%(RecursiveDir)" />
+
+    <!-- Get the binaries -->
+    <ItemGroup>
+      <BinFiles Include="bin\$(ProjectName).dll" />
+    </ItemGroup>
+
+    <!-- Copy the binaries -->
+    <Message Text="Copying Binaries" Importance="high" />
+    <Copy SourceFiles="@(BinFiles)" DestinationFolder="$(MsBuildProjectDirectory)\$(PackageInstallFolder)\bin\%(RecursiveDir)" />
+
+    <!-- Zip the resources -->
+    <Message Text="Zipping Resources" Importance="high" />
+    <CreateItem Include="$(MsBuildProjectDirectory)\$(PackageResourcesFolder)\**\*.*">
+      <Output TaskParameter="Include" ItemName="ResourcesFilesToZip" />
+    </CreateItem>
+    <Zip Files="@(ResourcesFilesToZip)" WorkingDirectory="$(MSBuildProjectDirectory)\$(PackageResourcesFolder)" ZipFileName="$(MSBuildProjectDirectory)\$(PackageInstallFolder)\Resources.zip" />
+
+    <!-- Zip the symbols-->
+    <Message Text="Zipping Symbols" Importance="high" />
+    <CreateItem Include="$(MSBuildProjectDirectory)\$(PackageSymbolsFolder)\**\*.*">
+      <Output TaskParameter="Include" ItemName="SymbolsToZip" />
+    </CreateItem>
+    <Zip Files="@(SymbolsToZip)" WorkingDirectory="$(MSBuildProjectDirectory)\$(PackageSymbolsFolder)" ZipFileName="$(MSBuildProjectDirectory)\$(PackageInstallFolder)\bin\Symbols.zip" />
+
+    <!-- Copy the install files -->
+    <Message Text="Copying Install files" Importance="high" />
+    <ItemGroup>
+      <InstallFiles Include="**\*.dnn" Exclude="packages\**;**\obj\**;**\_ReSharper*\**;Website\**;" />
+      <InstallFiles Include="**\*.txt" Exclude="packages\**;**\obj\**;**\_ReSharper*\**;Website\**;" />
+      <InstallFiles Include="**\*.SqlDataProvider" Exclude="packages\**;**\obj\**;**\_ReSharper*\**;Website\**;" />
+    </ItemGroup>
+    <Copy SourceFiles="@(InstallFiles)" DestinationFolder="$(PackageInstallFolder)\%(RecursiveDir)" />
+
+    <!-- Zip the final package -->
+    <CreateItem Include="$(MSBuildProjectDirectory)\$(PackageInstallFolder)\**\*.*">
+      <Output TaskParameter="Include" ItemName="FinalFiles" />
+    </CreateItem>
+    <Zip Files="@(FinalFiles)" WorkingDirectory="$(MSBuildProjectDirectory)\$(PackageInstallFolder)" ZipFileName="$(MSBuildProjectDirectory)\$(WebsiteInstallFolder)\$(ProjectName)_$(Version)_Install.zip" />
+
+    <!-- Delete the temporary folders after the build -->
+    <CallTarget Targets="DeletePackageFoldersAfter" RunEachTargetSeparately="true" UseResultsCache="false" />
+
+    <!-- Complete -->
+    <Message Text="Packaging complete, install package is at: $(MSBuildProjectDirectory)\$(WebsiteInstallFolder)\$(ProjectName)_$(Version)_install.zip" Importance="high" />
+  </Target>
+
+  <Target Name="DeletePackageFoldersBefore">
+    <RemoveDir Directories="$(MSBuildProjectDirectory)\$(WebsiteInstallFolder);$(MSBuildProjectDirectory)\$(PackageFolder)" />
+  </Target>
+
+  <Target Name="DeletePackageFoldersAfter">
+    <Message Text="Removing temporary folders" Importance="high" />
+    <RemoveDir Directories="$(MSBuildProjectDirectory)\$(PackageFolder)" />
+  </Target>
+
+</Project>

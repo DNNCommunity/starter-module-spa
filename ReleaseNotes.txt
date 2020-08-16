@@ -1,0 +1,13 @@
+﻿<h2>starter_module_spa</h2>
+<p><em>Developed by and for the DNN Community</em></p>
+<p>&nbsp;</p>
+<h3>Release History</h3>
+<hr />
+<p>&nbsp;</p>
+<div>
+	<h4>Initial Release</h4>
+	<ul>
+		<li style="margin-left:20px;">Feature 1</li>
+		<li style="margin-left:20px;">Feature 2</li>
+	</ul>
+</div>
