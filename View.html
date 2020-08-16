@@ -11,8 +11,8 @@
 
 <div id="myModule-[ModuleContext:ModuleId]">
     <h2 class="message"></h2>
-    <input class="name" type="text" placeholder="Enter your name..." />
-    <button>Say Goodbye To Me!</button>
+    [Resx:{key:"Name"}]: <input class="name" type="text" />
+    <button>[Resx:{key:"Personalize"}]</button>
 </div>
 
 <script language="javascript" type="text/javascript">
@@ -21,6 +21,6 @@
         var localizedSettings = {};
         var viewModel = new dnnSpa.viewModel(moduleId, localizedSettings);
         viewModel.init();
-        document.querySelector('#myModule-[ModuleContext:ModuleId] button').addEventListener('click', (e) => viewModel.sayGoodbye(e));
+        document.querySelector('#myModule-[ModuleContext:ModuleId] button').addEventListener('click', (e) => viewModel.sayHelloPersonalize(e));
     })
 </script>

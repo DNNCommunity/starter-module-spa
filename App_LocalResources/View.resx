@@ -135,4 +135,10 @@
   <data name="EditModule.Text" xml:space="preserve">
     <value>Add Item</value>
   </data>
+  <data name="Name.Text" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Personalize.Text" xml:space="preserve">
+    <value>Personalize</value>
+  </data>
 </root>

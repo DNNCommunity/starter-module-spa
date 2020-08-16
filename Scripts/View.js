@@ -27,10 +27,10 @@ dnnSpa.viewModel = function (moduleId, resx) {
         });
     };
 
-    var sayGoobye = function (e) {
+    var sayHelloPersonalize = function (e) {
         e.preventDefault();
         $.ajax({
-            url: service.baseUrl + "My/DnnGoodbye/",
+            url: service.baseUrl + "My/DnnHelloPersonalize/",
             type: "POST",
             beforeSend: service.framework.setModuleHeaders,
             dataType: "json",
@@ -40,7 +40,7 @@ dnnSpa.viewModel = function (moduleId, resx) {
                 $('#myModule-' + moduleId + ' .message').html(data);
             }
             else {
-                $('#myModule-' + moduleId + ' .message').html('Something went wrong with the DnnGoodbye Web API call!');
+                $('#myModule-' + moduleId + ' .message').html('Something went wrong with the DnnHelloPersonalize Web API call!');
             }
         });
     };
@@ -48,6 +48,6 @@ dnnSpa.viewModel = function (moduleId, resx) {
     return {
         init: init,
         sayHello: sayHello,
-        sayGoodbye: sayGoobye
+        sayHelloPersonalize: sayHelloPersonalize
     }
 };

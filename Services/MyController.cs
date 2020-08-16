@@ -15,7 +15,7 @@ namespace starter_module_spa.Services
         {
             try
             {
-                string dnnHello = "Hello from Dnn!";
+                string dnnHello = "Hello from DNN!";
                 return Request.CreateResponse(HttpStatusCode.OK, dnnHello);
             }
             catch (System.Exception ex)
@@ -29,11 +29,11 @@ namespace starter_module_spa.Services
         [DnnAuthorize()]
         [HttpPost()]
         [ValidateAntiForgeryToken()]
-        public HttpResponseMessage DnnGoodbye(DetailsDTO data)
+        public HttpResponseMessage DnnHelloPersonalize(DetailsDTO data)
         {
             try
             {
-                string dnnMessage = "Goodbye " + data.name + " from Dnn!";
+                string dnnMessage = "Hello " + data.name + " from DNN!";
                 return Request.CreateResponse(HttpStatusCode.OK, dnnMessage);
             }
             catch (System.Exception ex)
