@@ -8,7 +8,7 @@
     <!-- Reusable variables -->
     <PropertyGroup>
       <ProjectName>starter-module-spa</ProjectName>
-      <WebsiteFolder>..\Instances\dnn961\Website</WebsiteFolder>
+      <WebsiteFolder>Website</WebsiteFolder>
       <DeployFolder>$(WebsiteFolder)\DesktopModules\starter-module-spa</DeployFolder>
       <PackageFolder>Package</PackageFolder>
       <PackageResourcesFolder>$(PackageFolder)\Resources</PackageResourcesFolder>
