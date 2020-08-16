@@ -16,7 +16,7 @@ git clone https://github.com/DNNCommunity/starter-module-spa.git .
 
 ### Installation Option #2
 
-Use **dnn-cli**, which is [available as an npm package](https://www.npmjs.com/package/@dnncommunity/dnn-cli).  **dnn-cli** it can be installed via **yarn** or **npm**.
+Use **dnn-cli**, which is [available as an npm package](https://www.npmjs.com/package/@dnncommunity/dnn-cli).  **dnn-cli** can be installed via **yarn** or **npm**.
 
 ---
 #### Install dnn-cli...
