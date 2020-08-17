@@ -1,6 +1,6 @@
 namespace starter_module_spa.Models
 {
-    public class DetailsDTO
+    public class DetailsModel
     {
         public string name { get; set; }
     }
