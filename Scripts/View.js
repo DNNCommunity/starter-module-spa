@@ -13,7 +13,7 @@ dnnSpa.viewModel = function (moduleId, resx) {
 
     var sayHello = function () {
         $.ajax({
-            url: service.baseUrl + "My/DnnHello/",
+            url: service.baseUrl + "Home/DnnHello/",
             type: "GET",
             beforeSend: service.framework.setModuleHeaders,
             dataType: "json"
@@ -30,7 +30,7 @@ dnnSpa.viewModel = function (moduleId, resx) {
     var sayHelloPersonalize = function (e) {
         e.preventDefault();
         $.ajax({
-            url: service.baseUrl + "My/DnnHelloPersonalize/",
+            url: service.baseUrl + "Home/DnnHelloPersonalize/",
             type: "POST",
             beforeSend: service.framework.setModuleHeaders,
             dataType: "json",

@@ -4,11 +4,10 @@ using System.Net.Http;
 using DotNetNuke.Web.Api;
 using DotNetNuke.Services.Exceptions;
 
-namespace starter_module_spa.Services
+namespace starter_module_spa.Controllers
 {
-    public class MyController : ControllerBase
+    public class HomeController : DnnApiController
     {
-        #region "API Endpoints"
         [DnnAuthorize()]
         [HttpGet()]
         public HttpResponseMessage DnnHello()
@@ -29,7 +28,7 @@ namespace starter_module_spa.Services
         [DnnAuthorize()]
         [HttpPost()]
         [ValidateAntiForgeryToken()]
-        public HttpResponseMessage DnnHelloPersonalize(DetailsDTO data)
+        public HttpResponseMessage DnnHelloPersonalize(DetailsModel data)
         {
             try
             {
@@ -43,13 +42,5 @@ namespace starter_module_spa.Services
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
-        #endregion
-
-        #region "DTO Classes"
-        public class DetailsDTO
-        {
-            public string name { get; set; }
-        }
-        #endregion
     }
 }

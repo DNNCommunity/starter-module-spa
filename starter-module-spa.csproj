@@ -137,9 +137,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\ControllerBase.cs" />
-    <Compile Include="Services\MyController.cs" />
-    <Compile Include="Services\RouteMapper.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Models\DetailsModel.cs" />
+    <Compile Include="RouteMapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
