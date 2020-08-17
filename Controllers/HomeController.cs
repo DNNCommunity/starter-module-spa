@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Http;
 using DotNetNuke.Web.Api;
 using DotNetNuke.Services.Exceptions;
+using starter_module_spa.Models;
 
 namespace starter_module_spa.Controllers
 {
