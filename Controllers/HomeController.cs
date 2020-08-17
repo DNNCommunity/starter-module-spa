@@ -6,7 +6,7 @@ using DotNetNuke.Services.Exceptions;
 
 namespace starter_module_spa.Controllers
 {
-    public class MyController : DnnApiController
+    public class HomeController : DnnApiController
     {
         [DnnAuthorize()]
         [HttpGet()]
