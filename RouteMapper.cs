@@ -2,7 +2,7 @@
 
 namespace starter_module_spa
 {
-    public class RouterMapper : IServiceRouteMapper
+    public class RouteMapper : IServiceRouteMapper
     {
         public void RegisterRoutes(IMapRoute mapRouteManager)
         {
