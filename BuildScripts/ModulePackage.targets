@@ -186,7 +186,7 @@
     <CallTarget Targets="DeletePackageFoldersAfter" RunEachTargetSeparately="true" UseResultsCache="false" />
 
     <!-- Complete -->
-    <Message Text="Packaging complete, install package is at: $(MSBuildProjectDirectory)\$(WebsiteInstallFolder)\$(ProjectName)_$(Version)_install.zip" Importance="high" />
+    <Message Text="Packaging complete, install package is at: $(MSBuildProjectDirectory)\$(WebsiteInstallFolder)\$(ProjectName)_$(Version)_Install.zip" Importance="high" />
   </Target>
 
   <Target Name="DeletePackageFoldersBefore">
